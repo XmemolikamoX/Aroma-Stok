@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aroma Stok Takip</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="ust-alan">
+  <div style="display:flex; align-items:center; gap:14px;">
+    <img src="logo.png" alt="Logo" style="height:90px; width:90px; object-fit:contain; border-radius:10px;">
+    <div>
+      <h1>Aroma Stok Takip Sistemi</h1>
+      <p>Stok yönetimi, sipariş takibi ve özel reçete alanı</p>
+    </div>
+  </div>
+</header>
+
+  <main class="icerik">
+    <section class="kartlar">
+      <div class="kart kart-tiklanabilir" id="bekleyenSiparisKart">
+        <h2>Bekleyen Sipariş</h2>
+        <p id="bekleyenSiparis">0</p>
+      </div>
+
+      <div class="kart kart-aksiyon">
+        <h2>Yeni Aroma</h2>
+        <p>Manuel kayıt ekle</p>
+        <button id="yeniAromaBtn" class="mavi-btn">+ Yeni Aroma Ekle</button>
+      </div>
+
+      <div class="kart kart-tiklanabilir" id="kritikStokKart">
+        <h2>Kritik Stok</h2>
+        <p id="kritikStok">0</p>
+      </div>
+
+      <div class="kart kart-aksiyon">
+        <h2>Yeni Sipariş</h2>
+        <p>Bekleyen sipariş oluştur</p>
+        <button id="yeniSiparisBtn" class="turuncu-btn">+ Yeni Sipariş Ekle</button>
+      </div>
+
+      <div class="kart kart-tiklanabilir kart-ozel" id="ozelKart">
+        <h2>Özel</h2>
+        <p>🔒</p>
+      </div>
+    </section>
+
+    <section class="tablo-alani">
+      <div class="tablo-ust">
+        <h2>Aroma Listesi</h2>
+        <div class="ust-aksiyonlar">
+          <input type="text" id="aramaKutusu" placeholder="Kod, aroma adı veya tedarikçi ara">
+        </div>
+      </div>
+
+      <div class="tablo-kapsayici">
+        <table>
+          <thead>
+            <tr>
+              <th class="surukle-kolon"></th>
+              <th>Kod</th>
+              <th>Aroma Adı</th>
+              <th>Tedarikçi</th>
+              <th>Stok</th>
+              <th>Not</th>
+              <th>Durum</th>
+              <th>Termin</th>
+            </tr>
+          </thead>
+          <tbody id="aromaTablosu"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="tablo-alani">
+      <div class="tablo-ust">
+        <h2>Bekleyen Siparişler</h2>
+        <div class="ust-aksiyonlar">
+          <input type="text" id="siparisAramaKutusu" placeholder="Kod, aroma adı veya tedarikçi ara">
+        </div>
+      </div>
+
+      <div class="tablo-kapsayici">
+        <table>
+          <thead>
+            <tr>
+              <th>Kod</th>
+              <th>Aroma Adı</th>
+              <th>Tedarikçi</th>
+              <th>Miktar</th>
+              <th>Tarih</th>
+              <th>Bekleme</th>
+              <th>Not</th>
+              <th>İşlem</th>
+            </tr>
+          </thead>
+          <tbody id="siparisTablosu"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Aroma detay -->
+  <div class="modal gizli" id="detayModal">
+    <div class="modal-arka" data-kapat="detayModal"></div>
+    <div class="modal-kutu">
+      <div class="panel-baslik">
+        <h2>Aroma Detayı</h2>
+        <button class="gri-btn" data-kapat="detayModal">Kapat</button>
+      </div>
+
+      <div class="detay-satir"><strong>Kod:</strong> <span id="detayKod"></span></div>
+      <div class="detay-satir"><strong>Aroma Adı:</strong> <span id="detayAd"></span></div>
+      <div class="detay-satir"><strong>Tedarikçi:</strong> <span id="detayTedarikci"></span></div>
+      <div class="detay-satir"><strong>Mevcut Stok:</strong> <span id="detayStok"></span></div>
+      <div class="detay-satir"><strong>Durum:</strong> <span id="detayDurum"></span></div>
+      <div class="detay-satir"><strong>Kritik Limit:</strong> <span id="detayKritikLimit"></span></div>
+
+      <div class="form-grup" style="margin-top:14px;">
+        <label for="detayKritikInput">Kritik Stok Limiti (kg)</label>
+        <input type="number" id="detayKritikInput" min="0" step="0.1" placeholder="Örn: 10">
+      </div>
+
+      <div class="detay-satir" style="margin-top:14px;"><strong>Termin Süresi:</strong> <span id="detayTermin"></span></div>
+
+      <div class="form-grup" style="margin-top:14px;">
+        <label for="detayTerminInput">Termin Süresi</label>
+        <input type="text" id="detayTerminInput" placeholder="Örn: 7 GÜN / YARIN / 2 HAFTA">
+      </div>
+
+      <div class="detay-satir" style="margin-top:14px;"><strong>Açıklama:</strong> <span id="detayAciklama"></span></div>
+
+      <div class="islem-alani">
+        <input type="number" id="miktarInput" placeholder="Miktar gir" min="0" step="0.1">
+        <button id="ekleBtn" class="yesil-btn">Stok Ekle</button>
+        <button id="dusBtn" class="kirmizi-btn">Stok Düş</button>
+        <button id="terminKaydetBtn" class="mavi-btn">Termin Kaydet</button>
+        <button id="kritikKaydetBtn" class="turuncu-btn">Kritik Limit Kaydet</button>
+        <button id="duzenleBtn" class="mavi-btn">Düzenle</button>
+        <button id="silBtn" class="gri-btn">Aromayı Kaldır</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Aroma form -->
+  <div class="modal gizli" id="formModal">
+    <div class="modal-arka" data-kapat="formModal"></div>
+    <div class="modal-kutu">
+      <div class="panel-baslik">
+        <h2 id="formBaslik">Yeni Aroma Ekle</h2>
+        <button class="gri-btn" data-kapat="formModal">Kapat</button>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-grup">
+          <label for="yeniKod">Kod</label>
+          <input type="text" id="yeniKod" placeholder="Örn: ROB-001">
+        </div>
+        <div class="form-grup">
+          <label for="yeniAd">Aroma Adı</label>
+          <input type="text" id="yeniAd" placeholder="Örn: ŞEFTALİ AROMASI" autocomplete="off">
+          <div id="yeniAromaOnerileri" class="oneriler-kutusu gizli"></div>
+        </div>
+        <div class="form-grup">
+          <label for="yeniTedarikci">Tedarikçi</label>
+          <input type="text" id="yeniTedarikci" placeholder="Örn: ROBERTET">
+        </div>
+        <div class="form-grup">
+          <label for="yeniStok">Stok (kg)</label>
+          <input type="number" id="yeniStok" placeholder="0" min="0" step="0.1">
+        </div>
+        <div class="form-grup form-grup-tam">
+          <label for="yeniAciklama">Açıklama / Not</label>
+          <textarea id="yeniAciklama" placeholder="İstersen not yazabilirsin..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-aksiyon">
+        <button id="kaydetYeniAromaBtn" class="yesil-btn">Kaydet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sipariş form -->
+  <div class="modal gizli" id="siparisModal">
+    <div class="modal-arka" data-kapat="siparisModal"></div>
+    <div class="modal-kutu">
+      <div class="panel-baslik">
+        <h2>Yeni Sipariş Ekle</h2>
+        <button class="gri-btn" data-kapat="siparisModal">Kapat</button>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-grup">
+          <label for="siparisKod">Kod</label>
+          <input type="text" id="siparisKod" placeholder="Örn: F120 08030">
+        </div>
+        <div class="form-grup">
+          <label for="siparisAd">Aroma Adı</label>
+          <input type="text" id="siparisAd" placeholder="Örn: ŞEFTALİ AROMASI" autocomplete="off">
+          <div id="siparisAromaOnerileri" class="oneriler-kutusu gizli"></div>
+        </div>
+        <div class="form-grup">
+          <label for="siparisTedarikci">Tedarikçi</label>
+          <input type="text" id="siparisTedarikci" placeholder="Örn: ROBERTET">
+        </div>
+        <div class="form-grup">
+          <label for="siparisMiktar">Sipariş Miktarı (kg)</label>
+          <input type="number" id="siparisMiktar" placeholder="0" min="0" step="0.1">
+        </div>
+        <div class="form-grup">
+          <label for="siparisTarih">Sipariş Tarihi</label>
+          <input type="date" id="siparisTarih">
+        </div>
+        <div class="form-grup form-grup-tam">
+          <label for="siparisAciklama">Açıklama / Not</label>
+          <textarea id="siparisAciklama" placeholder="Sipariş notu..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-aksiyon">
+        <button id="kaydetSiparisBtn" class="turuncu-btn">Siparişi Kaydet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sipariş detay -->
+  <div class="modal gizli" id="siparisDetayModal">
+    <div class="modal-arka" data-kapat="siparisDetayModal"></div>
+    <div class="modal-kutu">
+      <div class="panel-baslik">
+        <h2>Bekleyen Sipariş Detayı</h2>
+        <button class="gri-btn" data-kapat="siparisDetayModal">Kapat</button>
+      </div>
+
+      <div class="detay-satir"><strong>Kod:</strong> <span id="siparisDetayKod"></span></div>
+      <div class="detay-satir"><strong>Aroma Adı:</strong> <span id="siparisDetayAd"></span></div>
+      <div class="detay-satir"><strong>Tedarikçi:</strong> <span id="siparisDetayTedarikci"></span></div>
+      <div class="detay-satir"><strong>Mevcut Sipariş:</strong> <span id="siparisDetayMiktar"></span></div>
+      <div class="detay-satir"><strong>Sipariş Tarihi:</strong> <span id="siparisDetayTarih"></span></div>
+      <div class="detay-satir"><strong>Bekleme Süresi:</strong> <span id="siparisDetayBekleme"></span></div>
+
+      <div class="form-grup">
+        <label for="siparisDetayMiktarInput">Miktar işlemi (kg)</label>
+        <input type="number" id="siparisDetayMiktarInput" placeholder="Miktar gir" min="0" step="0.1">
+      </div>
+
+      <div class="islem-alani">
+        <button id="siparisMiktarEkleBtn" class="yesil-btn">Miktar Arttır</button>
+        <button id="siparisMiktarDusBtn" class="kirmizi-btn">Miktar Azalt</button>
+      </div>
+
+      <div class="form-grup form-grup-tam" style="margin-top:18px;">
+        <label for="siparisDetayAciklama">Açıklama / Not</label>
+        <textarea id="siparisDetayAciklama" placeholder="Sipariş notu..."></textarea>
+      </div>
+
+      <div class="islem-alani">
+        <button id="siparisDetayKaydetBtn" class="mavi-btn">Kaydet</button>
+        <button id="siparisDetayStogaDahilBtn" class="yesil-btn">Stoğa Dahil Et</button>
+        <button id="siparisDetaySilBtn" class="gri-btn">Siparişi Sil</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Liste popup -->
+  <div class="modal gizli" id="listeModal">
+    <div class="modal-arka" data-kapat="listeModal"></div>
+    <div class="modal-kutu modal-kutu-genis">
+      <div class="panel-baslik">
+        <h2 id="listeModalBaslik">Liste</h2>
+        <button class="gri-btn" data-kapat="listeModal">Kapat</button>
+      </div>
+
+      <div class="tablo-alani tablo-modal-ici">
+        <div class="tablo-kapsayici">
+          <table>
+            <thead id="listeModalThead"></thead>
+            <tbody id="listeModalTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Özel alan giriş -->
+  <div class="modal gizli" id="ozelSifreModal">
+    <div class="modal-arka" data-kapat="ozelSifreModal"></div>
+    <div class="modal-kutu modal-kutu-kucuk">
+      <div class="panel-baslik">
+        <h2>Özel Alan Girişi</h2>
+        <button class="gri-btn" data-kapat="ozelSifreModal">Kapat</button>
+      </div>
+
+      <div class="form-grup">
+        <label for="ozelSifreInput">Şifre</label>
+        <input type="password" id="ozelSifreInput" placeholder="Şifre gir">
+      </div>
+
+      <p id="ozelSifreHata" class="hata-metin gizli">Şifre yanlış.</p>
+
+      <div class="form-aksiyon">
+        <button id="ozelSifreGirisBtn" class="mavi-btn">Giriş Yap</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Özel alan -->
+  <div class="modal gizli" id="ozelAlanModal">
+    <div class="modal-arka" data-kapat="ozelAlanModal"></div>
+    <div class="modal-kutu modal-kutu-genis modal-kutu-cok-genis">
+      <div class="panel-baslik">
+        <h2>Özel Reçete Alanı</h2>
+        <div class="panel-buton-grup">
+          <button id="ozelYeniKayitBtn" class="mavi-btn">+ Yeni Kayıt</button>
+          <button id="ozelJsonYukleBtn" class="yesil-btn">JSON Yükle</button>
+          <button id="sifreDegistirAcBtn" class="turuncu-btn">Şifre Değiştir</button>
+          <button class="gri-btn" data-kapat="ozelAlanModal">Kapat</button>
+        </div>
+      </div>
+
+      <div class="tablo-ust">
+        <div class="ust-aksiyonlar">
+          <input type="text" id="ozelAramaKutusu" placeholder="Ürün, aroma kodu veya aroma adı ara">
+          <input type="file" id="ozelJsonDosyaInput" accept=".json,application/json" class="gizli">
+        </div>
+      </div>
+
+      <div class="bilgi-kutu" id="jsonBilgiKutusu">
+        JSON dosyasını aynı klasöre koyduysan ilk açılışta otomatik yüklenir. İstersen “JSON Yükle” ile elle de seçebilirsin.
+      </div>
+
+      <div class="tablo-alani tablo-modal-ici">
+        <div class="tablo-kapsayici">
+          <table>
+            <thead>
+              <tr>
+                <th class="ozel-surukle-kolon"></th>
+                <th>Ürün</th>
+                <th>Özet</th>
+                <th>Üretim</th>
+                <th>İşlem</th>
+              </tr>
+            </thead>
+            <tbody id="ozelTablo"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ozel-sifre-degistir gizli" id="sifreDegistirPanel">
+        <div class="panel-baslik" style="margin-top:18px;">
+          <h2>Şifre Değiştir</h2>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-grup">
+            <label for="mevcutSifreInput">Mevcut Şifre</label>
+            <input type="password" id="mevcutSifreInput" placeholder="Mevcut şifre">
+          </div>
+          <div class="form-grup">
+            <label for="yeniSifreInput">Yeni Şifre</label>
+            <input type="password" id="yeniSifreInput" placeholder="Yeni şifre">
+          </div>
+        </div>
+
+        <div class="form-aksiyon">
+          <button id="sifreDegistirBtn" class="turuncu-btn">Şifreyi Kaydet</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Özel kayıt form -->
+  <div class="modal gizli" id="ozelFormModal">
+    <div class="modal-arka" data-kapat="ozelFormModal"></div>
+    <div class="modal-kutu">
+      <div class="panel-baslik">
+        <h2 id="ozelFormBaslik">Yeni Özel Kayıt</h2>
+        <button class="gri-btn" data-kapat="ozelFormModal">Kapat</button>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-grup">
+          <label for="ozelUrunAdi">Ürün Adı</label>
+          <input type="text" id="ozelUrunAdi" placeholder="Örn: MOSS SİDE ŞEFTALİ LİKÖRÜ">
+        </div>
+        <div class="form-grup">
+          <label for="ozelAromaKod">Aroma Kodu</label>
+          <input type="text" id="ozelAromaKod" placeholder="Örn: F 122 05116">
+        </div>
+        <div class="form-grup">
+          <label for="ozelAromaAd">Aroma Adı</label>
+          <input type="text" id="ozelAromaAd" placeholder="Örn: ŞEFTALİ AROMASI" autocomplete="off">
+          <div id="ozelAromaOnerileri" class="oneriler-kutusu gizli"></div>
+        </div>
+        <div class="form-grup">
+          <label for="ozelMiktar">Kullanım Miktarı</label>
+          <input type="number" id="ozelMiktar" placeholder="Örn: 1.5" min="0" step="0.001">
+        </div>
+        <div class="form-grup">
+          <label for="ozelBirim">Birim</label>
+          <input type="text" id="ozelBirim" placeholder="Örn: KG">
+        </div>
+        <div class="form-grup form-grup-tam">
+          <label for="ozelNot">Not</label>
+          <textarea id="ozelNot" placeholder="Özel reçete notu..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-aksiyon">
+        <button id="ozelKaydetBtn" class="yesil-btn">Kaydet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Özel ürün detay popup -->
+  <div class="modal gizli" id="ozelDetayModal">
+    <div class="modal-arka" data-kapat="ozelDetayModal"></div>
+    <div class="modal-kutu modal-kutu-genis modal-kutu-cok-genis">
+      <div class="panel-baslik">
+        <h2 id="ozelDetayBaslik">Ürün Detayı</h2>
+        <div class="panel-buton-grup">
+          <button id="ozelDetayKalemEkleBtn" class="yesil-btn">+ Kalem Ekle</button>
+          <button class="gri-btn" data-kapat="ozelDetayModal">Kapat</button>
+        </div>
+      </div>
+
+      <div class="ozel-ust-ozet">
+        <div class="ozel-ozet-kart">
+          <div class="ozet-kucuk-baslik">Toplam Kullanım</div>
+          <div id="ozelDetayToplam" class="ozet-buyuk-yazi">-</div>
+        </div>
+        <div class="ozel-ozet-kart">
+          <div class="ozet-kucuk-baslik">Üretilebilir Miktar</div>
+          <div id="ozelDetayUretim" class="ozet-buyuk-yazi">-</div>
+        </div>
+        <div class="ozel-ozet-kart">
+          <div class="ozet-kucuk-baslik">Kısıtlayan Kalem</div>
+          <div id="ozelDetayKisit" class="ozet-normal-yazi">-</div>
+        </div>
+      </div>
+
+      <div class="tablo-alani tablo-modal-ici">
+        <div class="tablo-kapsayici">
+          <table>
+            <thead>
+              <tr>
+              <th>Aroma Kodu</th>
+                <th>Tedarikçi</th>
+                <th>Aroma Adı</th>
+                <th>Kullanım</th>
+                <th>Stok</th>
+                <th>Not</th>
+                <th>İşlem</th>
+              </tr>
+            </thead>
+            <tbody id="ozelDetayTablo"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bulut + giriş sistemi: app.js'i giriş sonrası cloud.js yükler -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="cloud.js"></script>
+</body>
+</html>
