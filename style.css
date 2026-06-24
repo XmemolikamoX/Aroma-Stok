@@ -1,41 +1,41 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root {
-  /* Damıtımcının Paneli — petrol mürekkebi + bakır + patina */
-  --bg-base: #0a1a1e;
-  --bg-surface: #0f262b;
-  --bg-elevated: #15333a;
-  --bg-hover: #1d3f47;
-  --border: #224249;
-  --border-light: #2e545d;
+  /* Maison d'Arômes — şampanya kâğıdı + antik altın + garnet */
+  --bg-base: #efe7d8;       /* şampanya/kum zemin */
+  --bg-surface: #fbf7ef;    /* sıcak beyaz kartlar */
+  --bg-elevated: #f4ecdd;   /* tablo başlığı / iç yüzey */
+  --bg-hover: #f1e8d6;      /* hafif sıcak hover */
+  --border: #e4d8c2;        /* kum tonu kenarlık */
+  --border-light: #d8c8ac;
 
-  /* Bakır — imbik/damıtma; tek sıcak imza */
-  --accent: #c97a45;
-  --accent-bright: #de9461;
-  --accent-dim: #a8602f;
-  --accent-glow: rgba(201,122,69,0.12);
-  --accent-glow-strong: rgba(201,122,69,0.24);
+  /* Antik altın — tek metalik imza */
+  --accent: #8a6e26;
+  --accent-bright: #c2a24e;
+  --accent-dim: #6f581e;
+  --accent-glow: rgba(138,110,38,0.14);
+  --accent-glow-strong: rgba(138,110,38,0.26);
 
-  --text-primary: #efe8da;
-  --text-secondary: #a7bcbe;
-  --text-muted: #6f8c90;
-  --text-inverse: #0a1a1e;
+  --text-primary: #2c2117;   /* espresso mürekkep */
+  --text-secondary: #6c6051;
+  --text-muted: #978972;
+  --text-inverse: #fbf7ef;
 
-  /* Durumlar: patina (yeterli), bal (kritik), köz (yok), petrol-mavi (bilgi) */
-  --green: #5ba088;
-  --green-bg: rgba(91,160,136,0.12);
-  --orange: #e6b24a;
-  --orange-bg: rgba(230,178,74,0.12);
-  --red: #de6a5c;
-  --red-bg: rgba(222,106,92,0.12);
-  --blue: #6fa9c0;
-  --blue-bg: rgba(111,169,192,0.12);
+  /* Durumlar: defne yeşili (yeterli), yanık siena (kritik), garnet (yok), derin çam (bilgi) */
+  --green: #4f6b41;
+  --green-bg: rgba(79,107,65,0.14);
+  --orange: #a0561f;
+  --orange-bg: rgba(160,86,31,0.14);
+  --red: #9b2d38;
+  --red-bg: rgba(155,45,56,0.12);
+  --blue: #2e6b6e;
+  --blue-bg: rgba(46,107,110,0.12);
 
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.45);
-  --shadow-md: 0 6px 20px rgba(0,0,0,0.42);
-  --shadow-lg: 0 16px 44px rgba(0,0,0,0.5);
-  --shadow-modal: 0 28px 70px rgba(0,0,0,0.62), 0 0 0 1px rgba(222,148,97,0.07);
-  --shadow-accent: 0 6px 22px rgba(201,122,69,0.32);
+  --shadow-sm: 0 1px 2px rgba(70,52,28,0.07);
+  --shadow-md: 0 8px 24px rgba(80,58,28,0.10);
+  --shadow-lg: 0 20px 48px rgba(80,58,28,0.14);
+  --shadow-modal: 0 30px 80px rgba(55,40,20,0.22), 0 0 0 1px rgba(138,110,38,0.14);
+  --shadow-accent: 0 10px 26px rgba(138,110,38,0.30);
 
   --r-sm: 5px;
   --r-md: 9px;
@@ -43,8 +43,8 @@
   --r-xl: 17px;
   --transition: 0.16s cubic-bezier(0.4,0,0.2,1);
 
-  --font-display: 'Space Grotesk', 'IBM Plex Sans', sans-serif;
-  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 }
 
@@ -54,7 +54,8 @@ body {
   font-family: var(--font-body);
   margin: 0;
   background:
-    radial-gradient(1100px 520px at 78% -8%, rgba(201,122,69,0.07), transparent 60%),
+    radial-gradient(1200px 580px at 82% -12%, rgba(138,110,38,0.10), transparent 60%),
+    radial-gradient(900px 500px at 0% 8%, rgba(155,45,56,0.04), transparent 55%),
     var(--bg-base);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
@@ -63,8 +64,9 @@ body {
 
 h1, h2, h3 {
   font-family: var(--font-display);
-  letter-spacing: -0.01em;
-  font-feature-settings: "ss01";
+  font-optical-sizing: auto;
+  font-weight: 600;
+  letter-spacing: -0.005em;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -159,6 +161,7 @@ h1, h2, h3 {
   min-width: 200px;
   flex: 1 1 200px;
   border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
   transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
@@ -166,6 +169,7 @@ h1, h2, h3 {
 
 .kart h2 {
   margin: 0 0 10px 0;
+  font-family: var(--font-body);
   font-size: 11px;
   font-weight: 600;
   color: var(--text-muted);
@@ -174,12 +178,12 @@ h1, h2, h3 {
 }
 
 .kart p {
-  font-size: 34px;
-  font-weight: 700;
+  font-size: 38px;
+  font-weight: 600;
   margin: 0;
   color: var(--text-primary);
-  font-family: var(--font-mono);
-  letter-spacing: -1.5px;
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
   line-height: 1;
 }
 
@@ -197,14 +201,14 @@ h1, h2, h3 {
 .kart-tiklanabilir:hover {
   border-color: var(--accent);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 0 1px var(--accent);
+  box-shadow: 0 12px 30px rgba(80,58,28,0.16), 0 0 0 1px var(--accent);
 }
 
 .kart-tiklanabilir:hover h2 { color: var(--accent); }
 
 .kart-ozel {
-  background: linear-gradient(135deg, #1a1208, #221a09, #1e1a0f);
-  border-color: rgba(201,122,69,0.32);
+  background: linear-gradient(135deg, #fbf3df, #f6ead0);
+  border-color: rgba(138,110,38,0.34);
 }
 
 .kart-ozel::before {
@@ -215,7 +219,7 @@ h1, h2, h3 {
   pointer-events: none;
 }
 
-.kart-ozel h2 { color: rgba(222,148,97,0.6); }
+.kart-ozel h2 { color: var(--accent-dim); }
 .kart-ozel p { color: var(--accent); font-size: 26px; letter-spacing: 0; }
 .kart-ozel:hover { box-shadow: var(--shadow-accent); }
 
@@ -227,6 +231,7 @@ h1, h2, h3 {
   border-radius: var(--r-lg);
   margin-bottom: 18px;
   border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
   overflow: hidden;
 }
 
@@ -350,7 +355,7 @@ tbody tr:hover td { color: var(--text-primary); }
   background: var(--green-bg);
   padding: 3px 9px; border-radius: 20px;
   font-size: 11.5px; display: inline-block;
-  border: 1px solid rgba(91,160,136,0.28);
+  border: 1px solid rgba(79,107,65,0.30);
 }
 
 .turuncu {
@@ -358,7 +363,7 @@ tbody tr:hover td { color: var(--text-primary); }
   background: var(--orange-bg);
   padding: 3px 9px; border-radius: 20px;
   font-size: 11.5px; display: inline-block;
-  border: 1px solid rgba(230,178,74,0.28);
+  border: 1px solid rgba(160,86,31,0.30);
 }
 
 .kirmizi {
@@ -366,7 +371,7 @@ tbody tr:hover td { color: var(--text-primary); }
   background: var(--red-bg);
   padding: 3px 9px; border-radius: 20px;
   font-size: 11.5px; display: inline-block;
-  border: 1px solid rgba(222,106,92,0.28);
+  border: 1px solid rgba(155,45,56,0.28);
 }
 
 .not-hucre { width: 50px; text-align: center; }
@@ -440,15 +445,15 @@ button {
 button:hover { filter: brightness(1.12); transform: translateY(-1px); }
 button:active { transform: translateY(0); filter: brightness(0.95); }
 
-.yesil-btn   { background: #4f9279; }
-.kirmizi-btn { background: #c2564a; }
-.mavi-btn    { background: #3d7c92; }
-.gri-btn     { background: #1c3941; color: var(--text-secondary); border: 1px solid var(--border-light); }
-.gri-btn:hover { color: var(--text-primary); }
+.yesil-btn   { background: #4f6b41; }
+.kirmizi-btn { background: #9b2d38; }
+.mavi-btn    { background: #2e6b6e; }
+.gri-btn     { background: #ece3d3; color: var(--text-primary); border: 1px solid var(--border-light); }
+.gri-btn:hover { background: #e4d8c2; }
 .turuncu-btn {
   background: linear-gradient(180deg, var(--accent-bright), var(--accent));
-  color: #1a0e06;
-  box-shadow: 0 2px 10px var(--accent-glow-strong);
+  color: #2a1e0a;
+  box-shadow: 0 3px 12px var(--accent-glow-strong);
 }
 .turuncu-btn:hover { box-shadow: var(--shadow-accent); }
 
@@ -502,8 +507,8 @@ button:active { transform: translateY(0); filter: brightness(0.95); }
 }
 .modal-arka {
   position: fixed; inset: 0;
-  background: rgba(5,7,15,0.75);
-  backdrop-filter: blur(4px);
+  background: rgba(44,33,20,0.34);
+  backdrop-filter: blur(5px);
 }
 .modal-kutu {
   position: relative; z-index: 2001;
@@ -585,14 +590,14 @@ body.modal-acik { overflow: hidden; }
 .hata-metin {
   margin: 10px 0 0; color: var(--red); font-weight: 600; font-size: 13px;
   background: var(--red-bg); padding: 8px 12px; border-radius: var(--r-sm);
-  border: 1px solid rgba(222,106,92,0.28);
+  border: 1px solid rgba(155,45,56,0.28);
 }
 
 .ozel-sifre-degistir { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
 
 .bilgi-kutu {
   background: var(--blue-bg); color: var(--blue);
-  border: 1px solid rgba(111,169,192,0.28);
+  border: 1px solid rgba(46,107,110,0.28);
   padding: 9px 13px; border-radius: var(--r-sm);
   margin-bottom: 14px; font-size: 12.5px;
   display: flex; align-items: center; gap: 8px;
@@ -826,14 +831,14 @@ body.modal-acik { overflow: hidden; }
   font-weight: 600;
   color: var(--red);
   background: var(--red-bg);
-  border: 1px solid rgba(222,106,92,0.28);
+  border: 1px solid rgba(155,45,56,0.28);
   border-radius: var(--r-sm);
   line-height: 1.4;
 }
 .giris-hata.bilgi {
   color: var(--blue);
   background: var(--blue-bg);
-  border-color: rgba(111,169,192,0.3);
+  border-color: rgba(46,107,110,0.3);
 }
 
 /* ─── ÇIKIŞ BUTONU + BULUT DURUM ROZETİ ───────────────── */
